@@ -1,0 +1,114 @@
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="css/ionic.css">
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/geturi.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        var NIP = decodeURI(getUrlVars()["NIP"]);
+        var nama = decodeURI(getUrlVars()["nama"]);
+        var telp = decodeURI(getUrlVars()["telp"]);
+        var email = decodeURI(getUrlVars()["email"]);
+        var alamat = decodeURI(getUrlVars()["alamat"]);
+        
+        $("#NIP").val(NIP);
+        $("#nama").val(nama);
+        $("#telp").val(telp);
+        $("#email").val(email);
+        $("#alamat").val(alamat);
+        
+        $("#update").click(function() {
+            var NIP = $("#NIP").val();
+            var nama = $("#nama").val();
+            var telp = $("#telp").val();
+            var email = $("#email").val();
+            var alamat = $("#alamat").val();
+            
+            var dataString = "NIP=" + NIP + "&nama=" + nama + "&telp=" + telp + "&email=" + email + "&alamat=" + alamat +  "&update=";
+            $.ajax({
+                type: "POST",
+                url: "https://chabibahisah.000webhostapp.com/AppCordovaPkl/AppCordovaPkl/www/update.php",
+                data: dataString,
+                crossDomain: true,
+                cache: false,
+                beforeSend: function() {
+                    $("#update").val('Connecting...');
+                },
+                success: function(data) {
+                    if (data == "success") {
+                        alert("Updated");
+                        $("#update").val("Update");
+                    } else if (data == "error") {
+                        alert("error");
+                    }
+                }
+            });
+
+        });
+        $("#delete").click(function() {
+            var NIP = $("#NIP").val();
+            var dataString = "NIP=" + NIP + "&delete=";
+            $.ajax({
+                type: "GET",
+                url: "https://chabibahisah.000webhostapp.com/AppCordovaPkl/AppCordovaPkl/www/delete.php",
+                data: dataString,
+                crossDomain: true,
+                cache: false,
+                beforeSend: function() {
+                    $("#delete").val('Connecting...');
+                },
+                success: function(data) {
+                    if (data == "success") {
+                        alert("Deleted");
+                        $("#delete").val("Delete");
+                    } else if (data == "error") {
+                        alert("error");
+                    }
+                }
+            });
+
+        });
+    });
+    </script>
+</head>
+
+<body>
+    <div class="bar bar-header bar-positive" style="margin-bottom:80px;">
+        <a href="index.html" class="button button-clear">Home</a>
+        <h1 class="title">Update Database</h1>
+        <a class="button button-clear" href="readjson.html">Read JSON</a>
+    </div>
+    <br/>
+    <br/>
+    <div class="list">
+       
+        <div class="item">
+            <label>NIP</label>
+            <input type="text" id="NIP" value="" />
+        </div>
+        <div class="item">
+            <label>nama</label>
+            <input type="text" id="nama" value="" />
+        </div>
+        <div class="item">
+            <label>telp</label>
+            <input type="text" id="telp" value="" />
+        </div>
+        <div class="item">
+            <label>email</label>
+            <input type="text" id="email" value="" />
+        </div>
+        <div class="item">
+            <label>alamat</label>
+            <input type="text" id="alamat" value="" />
+        </div>
+       
+        <div class="item">
+            <input type="button" id="update" class="button button-block" value="Update" />
+            <input type="button" id="delete" class="button button-block" value="Delete" />
+        </div>
+    </div>
+</body>
+
+</html>
